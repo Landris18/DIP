@@ -1,7 +1,11 @@
 import os
 import time
+from time import strftime
+from datetime import datetime
+
 
 default_mac = [ligne.rstrip('\n') for ligne in open("mac.txt", "r")]
+
 
 def scan():
     global mac_scan
@@ -12,7 +16,6 @@ def scan():
         mac_scan.append(mac)
   
 
-
 def compare():
     scan()
     for j in range(0,len(mac_scan)):
@@ -22,7 +25,6 @@ def compare():
             print("Intrusion :",mac_scan[j])
 
 
-
 def listen():
     old_mac = len(mac_scan)
     while True:
@@ -30,19 +32,17 @@ def listen():
         nb_mac = len(mac_scan)
         #Comparaison
         if nb_mac > old_mac:
-            if mac_scan[old_mac] in  default_mac:
+            if mac_scan[old_mac] in default_mac:
                 pass
             else:
-                print("Intrusion:",mac_scan[old_mac])
+                print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Intrusion:",mac_scan[old_mac])
         elif nb_mac < old_mac:
-            print("Deconnected")
+            print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Deconnected")
         else:
-            print("No change")
+            print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": No change")
 
-        time.sleep(5)
+        time.sleep(0)
         old_mac = nb_mac
-
-
 
 
 if __name__=="__main__":
