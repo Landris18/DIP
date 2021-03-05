@@ -24,7 +24,7 @@ def scan():
     global mac_scan
     mac_scan = list()
     IP_S = IP.split(".")
-    for a in range(99,120):
+    for a in range(1,256):
         IP_S[-1] = str(a)
         IP_P = ".".join(IP_S)
         ping_test = os.system(f' ping -c 2 {IP_P} > /dev/null ')
