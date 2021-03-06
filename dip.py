@@ -1,6 +1,6 @@
 import os
-import time
 import socket
+import time
 from time import strftime
 from datetime import datetime
 
