@@ -8,6 +8,7 @@ from datetime import datetime
 default_mac = [ligne.rstrip('\n') for ligne in open("mac.txt", "r")]
 
 
+#Getting your local IP
 def my_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -19,7 +20,7 @@ def my_ip():
     finally:
         s.close()
 
-
+#Scanning network to get connected devices
 def scan():
     global mac_scan
     mac_scan = list()
@@ -36,8 +37,9 @@ def scan():
         else:
             pass
     mac_scan.remove('--')
+    
 
-
+#Compare scanned mac with macs in mac.txt
 def compare():
     scan()
     for j in range(0,len(mac_scan)):
@@ -47,6 +49,7 @@ def compare():
             print("Intrusion :",mac_scan[j])
 
 
+#Listenning the network in realtime            
 def listen():
     old_mac = len(mac_scan)
     while True:
