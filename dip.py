@@ -3,6 +3,7 @@ import socket
 import time
 from time import strftime
 from datetime import datetime
+from threading import Thread
 
 
 default_mac = [ligne.rstrip('\n') for ligne in open("mac.txt", "r")]
@@ -22,24 +23,34 @@ def my_ip():
 
 #Scanning network to get connected devices
 def scan():
-    global mac_scan
-    mac_scan = list()
-    IP_S = IP.split(".")
-    for a in range(1,256):
-        IP_S[-1] = str(a)
-        IP_P = ".".join(IP_S)
-        ping_test = os.system(f' ping -c 2 {IP_P} > /dev/null ')
+    def ping(ip):
+        ping_test = os.system(f' ping -c 2 {ip} > /dev/null ')
         if ping_test == 0:
-            out = os.popen(f' arp -n {IP_P} | grep -E "^[0-9]{{2,3}}" ').read().splitlines()
+            out = os.popen(f' arp -n {ip} | grep -E "^[0-9]{{2,3}}" ').read().splitlines()
+            global mac_scan
             for i, line in enumerate(out, start=1):
                 mac = line.split()[2]
                 mac_scan.append(mac)
         else:
             pass
-    mac_scan.remove('--')
-    
+        try: mac_scan.remove('--')
+        except: pass
 
-#Compare scanned mac with macs in mac.txt
+    global mac_scan
+    mac_scan = list()
+    IP_S = IP.split(".")
+    prs = []
+    for a in range(1,255):
+        IP_S[-1] = str(a)
+        IP_P = ".".join(IP_S)
+        p = Thread(target=ping, args=[IP_P])
+        p.start()
+        prs.append(p)
+    for pr in prs:
+        pr.join()
+
+
+    
 def compare():
     scan()
     for j in range(0,len(mac_scan)):
@@ -67,6 +78,7 @@ def listen():
             print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": No change")
 
         old_mac = nb_mac
+
 
 
 if __name__=="__main__":
