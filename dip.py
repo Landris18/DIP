@@ -53,15 +53,19 @@ def scan():
     
 def compare():
     scan()
+    print("------COMPARAISON DES ADRESSES MACS------")
     for j in range(0,len(mac_scan)):
         if mac_scan[j] in default_mac:
             print("Pass")
         else:
             print("Intrusion :",mac_scan[j])
+    print("---------------------------------------")
+    
 
 
 #Listenning the network in realtime            
 def listen():
+    print("-----------ECOUTE DU RESEAU------------")
     old_mac = len(mac_scan)
     while True:
         scan()
