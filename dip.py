@@ -21,6 +21,7 @@ def my_ip():
     finally:
         s.close()
 
+
 #Scanning network to get connected devices
 def scan():
     def ping(ip):
@@ -35,7 +36,7 @@ def scan():
             pass
         try: mac_scan.remove('--')
         except: pass
-
+    #Thread de ping des adresses
     global mac_scan
     mac_scan = list()
     IP_S = IP.split(".")
@@ -50,29 +51,27 @@ def scan():
         pr.join()
 
 
-    
 def compare():
     scan()
-    print("------COMPARAISON DES ADRESSES MACS------")
+    print()
+    print("------Comparaison des adresses macs------")
     for j in range(0,len(mac_scan)):
         if mac_scan[j] in default_mac:
             print("Pass")
         else:
             print("Intrusion :",mac_scan[j])
-    print('''
-    ---------------------------------------
-
+            os.system(f' macchanger --mac={mac_scan[j]} wlp2s0 1&> /dev/null ')
+    print('''-----------------------------------------
 
     ''')
-    
-    
 
 
 #Listenning the network in realtime            
 def listen():
-    print("-----------ECOUTE DU RESEAU------------")
+    print("-----------Ecoute du réseau--------------")
     old_mac = len(mac_scan)
     while True:
+        os.popen(f' macchanger -p wlp2s0 1&> /dev/null ')
         scan()
         nb_mac = len(mac_scan)
         #Comparaison
@@ -81,13 +80,13 @@ def listen():
                 print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Connected:",mac_scan[old_mac])
             else:
                 print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Intrusion:",mac_scan[old_mac])
+                os.system(f' macchanger --mac={mac_scan[old_mac]} wlp2s0 1&> /dev/null ')
         elif nb_mac < old_mac:
             print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Deconnected")
         else:
             print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": No change")
 
         old_mac = nb_mac
-
 
 
 if __name__=="__main__":
