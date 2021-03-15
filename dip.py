@@ -60,7 +60,7 @@ def compare():
             print("Pass")
         else:
             print("Intrusion :",mac_scan[j])
-            os.system(f' macchanger --mac={mac_scan[j]} wlp2s0 1&> /dev/null ')
+            #os.system(f' macchanger --mac={mac_scan[j]} wlp2s0 1&> /dev/null ')
     print('''-----------------------------------------
 
     ''')
@@ -71,7 +71,7 @@ def listen():
     print("-----------Ecoute du réseau--------------")
     old_mac = len(mac_scan)
     while True:
-        os.popen(f' macchanger -p wlp2s0 1&> /dev/null ')
+        #os.popen(f' macchanger -p wlp2s0 1&> /dev/null ')
         scan()
         nb_mac = len(mac_scan)
         #Comparaison
@@ -80,7 +80,7 @@ def listen():
                 print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Connected:",mac_scan[old_mac])
             else:
                 print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Intrusion:",mac_scan[old_mac])
-                os.system(f' macchanger --mac={mac_scan[old_mac]} wlp2s0 1&> /dev/null ')
+                #os.system(f' macchanger --mac={mac_scan[old_mac]} wlp2s0 1&> /dev/null ')
         elif nb_mac < old_mac:
             print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Deconnected")
         else:
