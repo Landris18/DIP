@@ -1,12 +1,16 @@
 from scapy.all import *
 import netifaces
+from termcolor import colored
+
+
+def has_root():
+    return os.geteuid() == 0
 
 
 def get_gateway_address():
     gateways = netifaces.gateways()
     global gateway_address
     gateway_address = gateways["default"][netifaces.AF_INET][0]
-    print(gateway_address)
 
 
 def connected(gateway_address, ip_range):
@@ -18,10 +22,11 @@ def connected(gateway_address, ip_range):
      for client in response:
           client_info = {"ip" : client[1].psrc, "mac" : client[1].src}
           clients.append(client_info)
-     print(clients)
+     print(colored(clients, 'blue'))
 
 
 def call_connected():
+     get_gateway_address()
      class_a = [i for i in range(127)]
      class_b = [i for i in range(127,192)]
      class_c = [i for i in range(192,224)]
@@ -39,5 +44,7 @@ def call_connected():
 
 
 if __name__ == "__main__":
-    get_gateway_address()
-    call_connected()
+     if has_root():
+          call_connected()
+     else:
+          print(colored("Run this script with root privileges", "red"))

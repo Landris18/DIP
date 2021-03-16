@@ -4,9 +4,15 @@ import time
 from time import strftime
 from datetime import datetime
 from threading import Thread
+from termcolor import colored
 
 
 default_mac = [ligne.rstrip('\n') for ligne in open("mac.txt", "r")]
+
+
+#Vérifivation de lancement en mode root
+def has_root():
+    return os.geteuid() == 0
 
 
 #Getting your local IP
@@ -90,6 +96,9 @@ def listen():
 
 
 if __name__=="__main__":
-    my_ip()
-    compare()
-    listen()
+    if has_root():
+        my_ip()
+        compare()
+        listen()
+    else:
+        print(colored("Run this script with root privileges", "red"))
