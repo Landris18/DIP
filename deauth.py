@@ -4,7 +4,7 @@ from termcolor import colored
 import time
 
 
-def as_root():
+def has_root():
     return os.geteuid() == 0
 
 #Deauth packet for accespoint
