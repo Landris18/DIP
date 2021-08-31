@@ -1,6 +1,6 @@
 # Intrusion-IP
 
-Détection d'intrusion dans un réseau par adresse mac (Deauth et arp spoofing en cours)
+Détection d'intrusion dans un réseau
 
 ## Fonctionnement (Testé sous Manjaro Linux et KDE Neon)
 
