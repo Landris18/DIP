@@ -1,9 +1,9 @@
 # Intrusion-IP
 
-Détection d'intrusion dans un réseau par adresse mac (Deauth et arp spoofing en cours)
+Détection d'intrusion dans un réseau par adresse mac
 
 ## Fonctionnement (Testé sous Manjaro Linux et KDE Neon)
 
-Mettre les adresses mac autorisés dans le fichier mac.txt
+Mettre les adresses mac autorisés dans un fichier mac.txt
 
-Lancer le script avec dip.py en mode root. 
+Lancer le fichier dip.py en mode root. 
