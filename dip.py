@@ -60,7 +60,7 @@ def scan():
 def compare():
     scan()
     print()
-    print("------Comparaison des adresses macs------")
+    print("------Comparaison des adresses mac------")
     for j in range(0,len(mac_scan)):
         if mac_scan[j] in default_mac:
             print("Pass")
@@ -85,7 +85,7 @@ def listen():
             else:
                 print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Intrusion:",mac_scan[old_mac])
         elif nb_mac < old_mac:
-            print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Deconnected")
+            print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": Disconnected")
         else:
             print(datetime.now().strftime("%d %B %Y  %H:%M:%S"),": No change")
 
